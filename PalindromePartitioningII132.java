@@ -5,7 +5,31 @@ Return the minimum cuts needed for a palindrome partitioning of s.
 For example, given s = "aab",
 Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 cut. 
 
- 
+ public class Solution {
+    public int minCut(String s) {
+        if (s == null || s.length() == 0) return 0;
+        boolean[][] palindrom = new boolean[s.length()][s.length()];
+        int[] dp = new int[s.length()];
+        dp[0] = 0;
+        for (int i = 1; i < s.length() ; i++){//O(N^2)
+            dp[i] = Integer.MAX_VALUE;
+            for (int j = 0; j <= i; j++){
+                if (s.charAt(j) == s.charAt(i)){
+                    if (i - j <= 1 || palindrom[j + 1][i - 1]){
+                        palindrom[j][i] = true;
+                        if (j == 0) dp[i] = 0;
+                        else dp[i] = Math.min(dp[i], dp[j - 1] + 1);
+                    }
+                }
+            }
+        }
+        return dp[s.length() - 1];
+    }
+    
+    
+}
+
+
  public class Solution {
     public int minCut(String s) {
         int len = s.length();
